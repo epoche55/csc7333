@@ -2,29 +2,34 @@ import re
 import pickle
 import string
 
-# not using
 def cleanhtml(raw_html):
-  cleanr = re.compile('<.*?>')
-  cleantext = re.sub(cleanr,'', raw_html)
-  return cleantext
+	cleanr = re.compile('<.*?>')
+	cleantext = re.sub(cleanr,'', raw_html)
+	return cleantext
 
 def parseAdj(line):
-	#result = "false"
-
 	line.translate(None, string.punctuation)
 
 	myLine = line.translate(string.maketrans("",""), string.punctuation)
 	lineLowerCase = myLine.lower()
 	words = lineLowerCase.split()
-	print "review = " , words
+
+	f.write("REVIEW: ")
+	for i in words:
+		f.write(i + ' ')
+	f.write('\n')
 
 	adjectives = [x for x in allWordsList if x in words]
-	print "adjectives = " , adjectives
+	f.write("ADJECTIVES: ")
+	for j in adjectives:
+		f.write(j + ', ')
+	f.write('\n\n')
 
-	# return result
 
 
 ## Open the file with read only permit
+# fadjNeg = open('4783_negativeWords.txt', 'r')
+# fadjPos = open('2006_positiveWords.txt', 'r')
 fallComments = open('AllComments.csv','r')
 freviewPos = open('PositiveComments.csv', 'r')
 freviewNeg = open('NegativeComments.csv', 'r')
@@ -41,8 +46,16 @@ while line:
 	parseAdj(line)
 	line = fallComments.readline()
 
-
-#next steps:
+# next steps
 Varray = []
 
+## If the file is not empty keep reading line one at a time
+## till the file is empty
+# while line:
+#     line = freviewPos.readline()
+#     new = cleanhtml(line)
+#     print(new)
 freviewPos.close()
+freviewNeg.close()
+fallComments.close()
+f.close()
