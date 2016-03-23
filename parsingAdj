@@ -1,59 +1,48 @@
 import re
+import pickle
+import string
 
+# not using
 def cleanhtml(raw_html):
-
   cleanr = re.compile('<.*?>')
-
   cleantext = re.sub(cleanr,'', raw_html)
-
   return cleantext
 
 def parseAdj(line):
-	result = "false"
+	#result = "false"
 
-	words = line.split()
+	line.translate(None, string.punctuation)
 
-	i=0
-	adjective = fadjPos.readline()
-	while i<len(words):
-		
-		while adjective:		#compares word with each adjective
-			print words[i] + " compared with " + adjective
-			if words[i] == adjective:
-				print words[i]
-			adjective = fadjPos.readline()
-		i=i+1
+	myLine = line.translate(string.maketrans("",""), string.punctuation)
+	lineLowerCase = myLine.lower()
+	words = lineLowerCase.split()
+	print "review = " , words
 
-
-
-	# for word in fadjneg
-	# 	for word in fadjneg
-	# 		if word = fadjneg[word]
-	# 			print word
-
+	adjectives = [x for x in allWordsList if x in words]
+	print "adjectives = " , adjectives
 
 	# return result
 
 
 ## Open the file with read only permit
-fadjNeg = open('4783_negativeWords.txt')
-fadjPos = open('2006_positiveWords.txt')
-freviewPos = open('PositiveComments.csv')
-freviewNeg = open('NegativeComments.csv')
+fallComments = open('AllComments.csv','r')
+freviewPos = open('PositiveComments.csv', 'r')
+freviewNeg = open('NegativeComments.csv', 'r')
+f = open('output.txt', 'w')
+
+posWordArr = [posWord.rstrip('\n') for posWord in open('2006_positiveWords.txt')]
+negWordArr = [negWord.rstrip('\n') for negWord in open('4783_negativeWords.txt')]
+allWordsList = posWordArr + negWordArr
 
 ## Read the first line
-line = freviewPos.readline()
-while line:
-	# print "next line"
-	parseAdj(line)
-	line = freviewPos.readline()
+line = fallComments.readline()
 
+while line:
+	parseAdj(line)
+	line = fallComments.readline()
+
+
+#next steps:
 Varray = []
 
-## If the file is not empty keep reading line one at a time
-## till the file is empty
-# while line:
-#     line = freviewPos.readline()
-#     new = cleanhtml(line)
-#     print(new)
 freviewPos.close()
