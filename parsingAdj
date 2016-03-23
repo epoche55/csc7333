@@ -1,0 +1,59 @@
+import re
+
+def cleanhtml(raw_html):
+
+  cleanr = re.compile('<.*?>')
+
+  cleantext = re.sub(cleanr,'', raw_html)
+
+  return cleantext
+
+def parseAdj(line):
+	result = "false"
+
+	words = line.split()
+
+	i=0
+	adjective = fadjPos.readline()
+	while i<len(words):
+		
+		while adjective:		#compares word with each adjective
+			print words[i] + " compared with " + adjective
+			if words[i] == adjective:
+				print words[i]
+			adjective = fadjPos.readline()
+		i=i+1
+
+
+
+	# for word in fadjneg
+	# 	for word in fadjneg
+	# 		if word = fadjneg[word]
+	# 			print word
+
+
+	# return result
+
+
+## Open the file with read only permit
+fadjNeg = open('4783_negativeWords.txt')
+fadjPos = open('2006_positiveWords.txt')
+freviewPos = open('PositiveComments.csv')
+freviewNeg = open('NegativeComments.csv')
+
+## Read the first line
+line = freviewPos.readline()
+while line:
+	# print "next line"
+	parseAdj(line)
+	line = freviewPos.readline()
+
+Varray = []
+
+## If the file is not empty keep reading line one at a time
+## till the file is empty
+# while line:
+#     line = freviewPos.readline()
+#     new = cleanhtml(line)
+#     print(new)
+freviewPos.close()
