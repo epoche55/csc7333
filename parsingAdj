@@ -20,11 +20,16 @@ def parseAdj(line):
 	f.write('\n')
 
 	adjectives = [x for x in allWordsList if x in words]
+
+	# adding adjectives to list without repeats
+	for element in adjectives:
+		if element not in allAdjList:
+			allAdjList.append(element)
+
 	f.write("ADJECTIVES: ")
 	for j in adjectives:
 		f.write(j + ', ')
 	f.write('\n\n')
-
 
 
 ## Open the file with read only permit
@@ -41,10 +46,16 @@ allWordsList = posWordArr + negWordArr
 
 ## Read the first line
 line = fallComments.readline()
+allAdjList = []
+
 
 while line:
 	parseAdj(line)
 	line = fallComments.readline()
+
+f.write("\n\nALL ADJECTIVES: ")
+for j in allAdjList:
+	f.write(j + ', ')
 
 # next steps
 Varray = []
