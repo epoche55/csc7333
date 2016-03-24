@@ -1,25 +1,26 @@
 import re
 import pickle
 import string
+import csv
 
-def cleanhtml(raw_html):
-	cleanr = re.compile('<.*?>')
-	cleantext = re.sub(cleanr,'', raw_html)
-	return cleantext
-
-def parseAdj(line):
+def splitString(line):
+	# removing punctuation, making all lowercase, and spliting line into a list of words, called 'wordsInReview'
 	line.translate(None, string.punctuation)
-
 	myLine = line.translate(string.maketrans("",""), string.punctuation)
 	lineLowerCase = myLine.lower()
-	words = lineLowerCase.split()
+	wordsInReview = lineLowerCase.split()	# split string into array
+
+	return wordsInReview
+
+def parseAdj(wordsInReview):
 
 	f.write("REVIEW: ")
-	for i in words:
+	for i in wordsInReview:
 		f.write(i + ' ')
 	f.write('\n')
 
-	adjectives = [x for x in allWordsList if x in words]
+	# finding adjectives within review
+	adjectives = [x for x in allWordsList if x in wordsInReview]
 
 	# adding adjectives to list without repeats
 	for element in adjectives:
@@ -32,40 +33,40 @@ def parseAdj(line):
 	f.write('\n\n')
 
 
+
+
 ## Open the file with read only permit
 # fadjNeg = open('4783_negativeWords.txt', 'r')
 # fadjPos = open('2006_positiveWords.txt', 'r')
 fallComments = open('AllComments.csv','r')
 freviewPos = open('PositiveComments.csv', 'r')
 freviewNeg = open('NegativeComments.csv', 'r')
+fallCommentsOutput = open('allCommentsOutput.csv', 'w')
 f = open('output.txt', 'w')
 
-posWordArr = [posWord.rstrip('\n') for posWord in open('2006_positiveWords.txt')]
-negWordArr = [negWord.rstrip('\n') for negWord in open('4783_negativeWords.txt')]
+posWordArr = [posWord.rstrip('\n') for posWord in open('positiveWords.txt')]
+negWordArr = [negWord.rstrip('\n') for negWord in open('negativeWords.txt')]
 allWordsList = posWordArr + negWordArr
+
+
+allAdjList = []
+# with open('AllComments.csv','r') as fallComments:
+# 	reader = csv.reader(fallComments)
+# 	allCommentsArr = list(reader)
 
 ## Read the first line
 line = fallComments.readline()
-allAdjList = []
-
-
 while line:
-	parseAdj(line)
+	wordsInReview = splitString(line)
+	parseAdj(wordsInReview)
 	line = fallComments.readline()
+
 
 f.write("\n\nALL ADJECTIVES: ")
 for j in allAdjList:
 	f.write(j + ', ')
 
-# next steps
-Varray = []
 
-## If the file is not empty keep reading line one at a time
-## till the file is empty
-# while line:
-#     line = freviewPos.readline()
-#     new = cleanhtml(line)
-#     print(new)
 freviewPos.close()
 freviewNeg.close()
 fallComments.close()
