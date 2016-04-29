@@ -7,6 +7,6 @@ negativeWords.txt,
 AllComments.csv, 
 Bag of words.ipynb, 
 only Adj.ipynb, 
-parsingAdj
+parsingAdj.py
 
 
