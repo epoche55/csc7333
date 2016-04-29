@@ -2,8 +2,8 @@
 group1 project
 
 Files used: 
-2006_positiveWords.txt, 
-4783_negativeWords.txt, 
+positiveWords.txt, 
+negativeWords.txt, 
 AllComments.csv, 
 Bag of words.ipynb, 
 only Adj.ipynb, 
